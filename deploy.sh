@@ -20,9 +20,10 @@ chmod 600 deploykey
 eval `ssh-agent -s`
 ssh-add deploykey
 
-REMOTE_REPO="git@github.com:cheddar-lang/cheddar-lang.github.io.git"
+REPO="cheddar-lang.github.io"
+REMOTE_REPO="git@github.com:cheddar-lang/${REPO}.git"
 
-git clone $REMOTE_REPO && cd $REMOTE_REPO
+git clone $REMOTE_REPO && cd $REPO
 
 git config user.name "Travis CI"
 git config user.email $COMMIT_AUTHOR_EMAIL
@@ -39,4 +40,4 @@ if [ -z `git diff  --exit-code nix/ windows/` ]; then
     exit 0
 fi
 
-git push $REMOTE_REPO master
+git push origin master
