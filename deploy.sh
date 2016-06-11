@@ -10,6 +10,9 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "master" ]; then
     exit 0
 fi
 
+echo `ls`
+echo `ls ..`
+
 REMOTE_REPO="git@github.com:cheddar-lang/cheddar-lang.github.io.git"
 
 git clone $REMOTE_REPO && cd $REMOTE_REPO
