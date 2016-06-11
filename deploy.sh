@@ -10,8 +10,15 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "master" ]; then
     exit 0
 fi
 
-echo `ls`
-echo `ls ..`
+# De-encrypt the deployment private key
+ENCRYPTED_KEY_VAR="encrypted_${ENCRYPTION_LABEL}_key"
+ENCRYPTED_IV_VAR="encrypted_${ENCRYPTION_LABEL}_iv"
+ENCRYPTED_KEY=${!ENCRYPTED_KEY_VAR}
+ENCRYPTED_IV=${!ENCRYPTED_IV_VAR}
+openssl aes-256-cbc -K $encrypted_c66588929ae5_key -iv $encrypted_c66588929ae5_iv -in deploykey.enc -out deploykey -d
+chmod 600 deploykey
+eval `ssh-agent -s`
+ssh-add deploykey
 
 REMOTE_REPO="git@github.com:cheddar-lang/cheddar-lang.github.io.git"
 
@@ -31,14 +38,5 @@ if [ -z `git diff  --exit-code nix/ windows/` ]; then
     echo "No changes. Exiting..."
     exit 0
 fi
-
-ENCRYPTED_KEY_VAR="encrypted_${ENCRYPTION_LABEL}_key"
-ENCRYPTED_IV_VAR="encrypted_${ENCRYPTION_LABEL}_iv"
-ENCRYPTED_KEY=${!ENCRYPTED_KEY_VAR}
-ENCRYPTED_IV=${!ENCRYPTED_IV_VAR}
-openssl aes-256-cbc -K $encrypted_c66588929ae5_key -iv $encrypted_c66588929ae5_iv -in deploykey.enc -out deploykey -d
-chmod 600 deploykey
-eval `ssh-agent -s`
-ssh-add deploykey
 
 git push $REMOTE_REPO master
