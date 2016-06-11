@@ -22,6 +22,7 @@ mkdir install 2> /dev/null || :
 cp -r ../nix ./install/nix
 cp -r ../windows ./install/windows
 git add -A
+git commit -am "Auto-deploy from @/install: $(git rev-parse --verify HEAD)"
 
 if [ -z `git diff  --exit-code nix/ windows/` ]; then
     echo "No changes. Exiting..."
