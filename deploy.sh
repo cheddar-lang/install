@@ -35,9 +35,9 @@ cp -r ../windows ./install/
 git add -A
 git commit -am "$(printf "Auto-deploy from @/install: SHA$(git log -1 --pretty=%B --oneline | sed 's/ /; /') " )"
 
-if [ -z `git diff  --exit-code nix/ windows/` ]; then
-    echo "No changes. Exiting..."
-    exit 0
-fi
+# if [ -z `git diff  --exit-code nix/ windows/` ]; then
+#     echo "No changes. Exiting..."
+#     exit 0
+# fi
 
 git push origin master
