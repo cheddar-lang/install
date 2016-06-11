@@ -1,5 +1,6 @@
 language: generic
-script: deploy.sh
+
+script: bash ./deploy.sh
 env:
     global:
     - ENCRYPTION_LABEL: "c66588929ae5"
