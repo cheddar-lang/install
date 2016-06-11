@@ -17,7 +17,24 @@ git clone $REMOTE_REPO && cd $REMOTE_REPO
 git config user.name "Travis CI"
 git config user.email $COMMIT_AUTHOR_EMAIL
 
-if [ -z `git diff  --exit-code nix/ windows/ ]; then
+mkdir install 2> /dev/null || :
+
+cp -r ../nix ./install/nix
+cp -r ../windows ./install/windows
+git add -A
+
+if [ -z `git diff  --exit-code nix/ windows/` ]; then
     echo "No changes. Exiting..."
     exit 0
 fi
+
+ENCRYPTED_KEY_VAR="encrypted_${ENCRYPTION_LABEL}_key"
+ENCRYPTED_IV_VAR="encrypted_${ENCRYPTION_LABEL}_iv"
+ENCRYPTED_KEY=${!ENCRYPTED_KEY_VAR}
+ENCRYPTED_IV=${!ENCRYPTED_IV_VAR}
+openssl aes-256-cbc -K $encrypted_c66588929ae5_key -iv $encrypted_c66588929ae5_iv -in deploykey.enc -out deploykey -d
+chmod 600 deploykey
+eval `ssh-agent -s`
+ssh-add deploykey
+
+git push $REMOTE_REPO master

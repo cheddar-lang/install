@@ -1,0 +1,6 @@
+language: generic
+script: deploy.sh
+env:
+    global:
+    - ENCRYPTION_LABEL: "c66588929ae5"
+    - COMMIT_AUTHOR_EMAIL: "contact@vihan.org"
