@@ -30,10 +30,10 @@ git config user.email $COMMIT_AUTHOR_EMAIL
 
 mkdir install 2> /dev/null || :
 
-cp -r ../nix ./install/nix
-cp -r ../windows ./install/windows
+cp -r ../nix ./install/
+cp -r ../windows ./install/
 git add -A
-git commit -am "Auto-deploy from @/install: $(git rev-parse --verify HEAD)"
+git commit -am "$(printf "Auto-deploy from @/install: SHA$(git log -1 --pretty=%B --oneline | sed 's/ /; /') " )"
 
 if [ -z `git diff  --exit-code nix/ windows/` ]; then
     echo "No changes. Exiting..."
