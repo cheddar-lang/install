@@ -28,7 +28,7 @@ git clone $REMOTE_REPO && cd $REPO
 git config user.name "Travis CI"
 git config user.email $COMMIT_AUTHOR_EMAIL
 
-mkdir install 2> /dev/null || :
+mkdir install 2>/dev/null||:;
 
 cp -r ../nix ./install/
 cp -r ../windows ./install/
