@@ -10,6 +10,9 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "master" ]; then
     exit 0
 fi
 
+COMMIT_DATA_SHA=`git rev-parse --verify HEAD`
+COMMIT_DATA_MESSAGE=`git log -n 1 --pretty=format:'%s'`
+
 # De-encrypt the deployment private key 
 ENCRYPTED_KEY_VAR="encrypted_${ENCRYPTION_LABEL}_key"
 ENCRYPTED_IV_VAR="encrypted_${ENCRYPTION_LABEL}_iv"
@@ -33,7 +36,7 @@ mkdir install 2>/dev/null||:;
 cp -r ../nix ./install/
 cp -r ../windows ./install/
 git add -A
-git commit -am "$(printf "Auto-deploy from @/install: SHA$(git log -1 --pretty=%B --oneline | sed 's/ /; /') " )"
+git commit -am "$(printf "Auto-deploy from @/install: SHA ${COMMIT_DATA_SHA}; ${COMMIT_DATA_MESSAGE}" )"
 
 # if [ -z `git diff  --exit-code nix/ windows/` ]; then
 #     echo "No changes. Exiting..."
