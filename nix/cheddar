@@ -28,6 +28,7 @@ chmod -R 777 $cdrtmpdir/
 cd $cdrtmpdir
 echo "Beginning install..."
 sudo ./bin/install
+echo "Installation appears to be successful!"
 echo "Cleaning remains..."
 cd ..
 sudo rm -rf $cdrtmpdir
