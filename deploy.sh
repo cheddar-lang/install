@@ -34,7 +34,9 @@ git config user.email $COMMIT_AUTHOR_EMAIL
 mkdir install 2>/dev/null||:;
 
 for dir in ../*/; do
-    cp -r $dir ./install/
+    if ! [ "$dir" -ef "`pwd`" ]; then
+        cp -r $dir ./install/
+    fi
 done
 
 git add -A
