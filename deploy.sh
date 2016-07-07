@@ -33,8 +33,10 @@ git config user.email $COMMIT_AUTHOR_EMAIL
 
 mkdir install 2>/dev/null||:;
 
-cp -r ../nix ./install/
-cp -r ../windows ./install/
+for dir in ../*/; do
+    cp -r $dir ./install/
+done
+
 git add -A
 git commit -am "$(printf "Auto-deploy from @/install: SHA ${COMMIT_DATA_SHA}; ${COMMIT_DATA_MESSAGE}" )"
 
