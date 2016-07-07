@@ -35,7 +35,7 @@ mkdir install 2>/dev/null||:;
 
 for dir in ../*/; do
     if ! [ "$dir" -ef "`pwd`" ]; then
-        cp -r $dir ./install/
+        cp -r $dir ./i/
     fi
 done
 
